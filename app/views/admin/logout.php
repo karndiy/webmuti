@@ -9,9 +9,10 @@ $_SESSION = array();
 session_destroy();
 
 // redirect to some other page///
-//header("Location: ".BASEURL);
 $msg = array("data"=>"logout");
-$this->view('home/index',['admin'=>$msg]);
-exit();
+header("Location: ".BASEURL);
+
+// $this->view('home/index',['admin'=>$msg]);
+// exit();
 
 ?>

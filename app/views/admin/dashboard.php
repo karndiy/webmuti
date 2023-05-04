@@ -1,6 +1,20 @@
 <?php 
 $title = "DashBorad"; 
-require_once('public/templates/header.php');?>
+require_once('public/templates/header.php');
+
+
+function showLoginForm($error = null) {
+  //     // display error message if provided
+      if (!empty($error)) {
+         echo '<p class="error">' . $error . '</p>';
+       }    
+     
+    }
+
+
+?>
+
+
 
 
 <div class="container-fluid">
@@ -82,12 +96,37 @@ require_once('public/templates/header.php');?>
           </li>
         </ul>
       </div>
-    </nav>
+</nav>
+ 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"> 
     <?php 
-    echo 'dashborad';
-    echo '<hr>';
-    print_r($_SESSION['user']);
+    if(!isset($data['admin'])){ showLoginForm($data['admin']);}
+    
+    echo '<div class="container-fluid">';
+    echo '<h3>Dashborad</h3>';
+    echo '<div class="row">';
+    
+        echo '<div class="col">';
+      
+      ?>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Session</h5>
+            <p class="card-text"><?php  print_r($_SESSION['user']);?></p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+      
+      <?php
+
+          echo '</div>'; 
+        echo '</div>';
+    echo '</div>';
+    
+
+
 
     ?>
 </main>

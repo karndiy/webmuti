@@ -34,6 +34,10 @@ class AdminController extends Controller
 
     public function index()
     {
+          require_once 'app/models/Captcha.php';
+          $character  = "0123456789";
+          $chalength =  6;
+          $captcha = new Captcha($chalength,$character);
 
         if(isset($_SESSION['user'])){
             //     // show dashboard or redirect to main page
@@ -45,40 +49,49 @@ class AdminController extends Controller
         
         }
 
-        if(isset($_POST['login']) ){
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $user =  $this->model('Admin');
-
-            $user_data = $user->getUserByUsername($username);
-            
-
-            $hpassword = hash('sha256', $password);
-           // print_r( $user_data);
+        if(isset($_POST['login']) &&  $captcha->validateCaptcha($_POST['captcha']) ){
           
-            if ($user_data && $hpassword === $user_data->password) {
-            // save user ID in session variable
-            $_SESSION['user'] = array(   'uid'=>$user_data->id,
-                                            'username'=>$user_data->username,
-                                            'role'=>$user_data->role,
-                                        );
-            
-          
-            
-            // show dashboard or redirect to main page
-            //header('Location: dashboard.php');            
-            $this->view('admin/dashboard');
-            exit;
+          //  if ($captcha->validateCaptcha($_POST['captcha'])) {
+              
+                  $username = $_POST['username'];
+                  $password = $_POST['password'];
+                  $user =  $this->model('Admin');
+
+                  $user_data = $user->getUserByUsername($username);
+                  
+
+                  $hpassword = hash('sha256', $password);
+                // print_r( $user_data);
+                
+                  if ($user_data && $hpassword === $user_data->password) {
+                  // save user ID in session variable
+                  $_SESSION['user'] = array(   'uid'=>$user_data->id,
+                                                  'username'=>$user_data->username,
+                                                  'role'=>$user_data->role,
+                                              );
+              
+              // show dashboard or redirect to main page
+              //header('Location: dashboard.php');  
+              $msg = array('msg'=>'Login Sucess..!');          
+              $this->view('admin/dashboard',['admin'=>$msg]);
+              exit();
+             // echo 'pass<hr>';
+             // print_r($_SESSION);
+          //  }
             } else {
             // display error message
             
            // $this->view->showLoginForm('Invalid username or password');
              $erorr = array('msg'=>'Invalid username or password');
+             echo 'error<hr>';
+             print_r($_SESSION);
           
              $this->view('admin/index',['admin'=>$erorr]);
-            exit;
+            exit();
             }
        }else{
+
+        $erorr = array('msg'=>'Invalid username or password');
 
         $this->view('admin/login');
 
@@ -93,6 +106,11 @@ class AdminController extends Controller
 
 
     }
+
+     public function captcha(){
+       $this->view('admin/captcha');
+
+     }
 }
 
 

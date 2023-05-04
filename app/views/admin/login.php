@@ -1,7 +1,17 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <!------ Include the above in your HEAD tag ---------->
+
+<?php 
+require_once 'app/models/Captcha.php';
+$character  = "123456789";
+$chalength =  6;
+$captcha = new Captcha($chalength,$character);
+
+$imageData = $captcha->generateCaptcha();
+?>
+
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +29,7 @@
 	<link rel="stylesheet" type="text/css" href="login.css?v11">
 </head>
 <body>
-<div class="container">
+<div class="container p-5">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
@@ -45,6 +55,19 @@
 						</div>
 						<input type="password" class="form-control" placeholder="password" name="password" id="password">
 					</div>
+
+                    <div class="input-group form-group" >
+					<div class="input-group-prepend">
+
+					<span class="input-group-text"><i class="fas fa-key"></i></span>
+					</div>
+						
+					<!-- <label for="captcha">CAPTCHA:</label> -->
+                        <input class="input-group-text" class="form-control"  type="text" id="captcha" name="captcha" placeholder="captcha">
+		              <?php echo '<img src="data:image/png;base64,' . base64_encode($imageData) . '">';?>
+					</div>
+
+
 					<div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
 					</div>
