@@ -1,15 +1,22 @@
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
 <!------ Include the above in your HEAD tag ---------->
 
 <?php 
-require_once 'app/models/Captcha.php';
-$character  = "123456789";
-$chalength =  6;
-$captcha = new Captcha($chalength,$character);
+//require_once 'app/models/Captcha.php';
+$character  = CAPTCHA_STR;
+$chalength =  CAPTCHA_LEN;
+$captchas =  $this->model('Captcha');
+$captcha = new $captchas($chalength,$character);
 
 $imageData = $captcha->generateCaptcha();
+
+function showLoginForm($error = '') {
+	//     // display error message if provided
+		if (!empty($error)) {
+		   echo '<p class="error">' . $error . '</p>';
+		 }    
+	   
+	  }
 ?>
 
 
@@ -29,7 +36,9 @@ $imageData = $captcha->generateCaptcha();
 	<link rel="stylesheet" type="text/css" href="login.css?v11">
 </head>
 <body>
+	
 <div class="container p-5">
+
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
@@ -41,6 +50,7 @@ $imageData = $captcha->generateCaptcha();
 				</div>
 			</div>
 			<div class="card-body">
+			<?php 	 if(isset($data['admin'])){ showLoginForm($data['admin']['msg']);} ?>
 				<form method="post" action="admin/index.php">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
@@ -88,4 +98,7 @@ $imageData = $captcha->generateCaptcha();
 	</div>
 </div>
 </body>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </html>

@@ -34,10 +34,9 @@ class AdminController extends Controller
 
     public function index()
     {
-          require_once 'app/models/Captcha.php';
-          $character  = "0123456789";
-          $chalength =  6;
-          $captcha = new Captcha($chalength,$character);
+          
+          $captchas =  $this->model('Captcha');  
+          $captcha = new $captchas();
 
         if(isset($_SESSION['user'])){
             //     // show dashboard or redirect to main page
@@ -82,18 +81,18 @@ class AdminController extends Controller
             // display error message
             
            // $this->view->showLoginForm('Invalid username or password');
-             $erorr = array('msg'=>'Invalid username or password');
+           $msg = array('msg'=>'Invalid username or password');
              echo 'error<hr>';
              print_r($_SESSION);
           
-             $this->view('admin/index',['admin'=>$erorr]);
+             $this->view('admin/login',['admin'=>$msg]);
             exit();
             }
        }else{
 
-        $erorr = array('msg'=>'Invalid username or password');
+        $msg = array('msg'=>'Enter username or password');
 
-        $this->view('admin/login');
+        $this->view('admin/login',['admin'=>$msg]);
 
        }
            

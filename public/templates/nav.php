@@ -43,6 +43,10 @@
           </li>  
 
           <?php endif; ?>    
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<?=BASEURL;?>/shorturl">shorturl</a>
+          </li> 
           
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="<?=BASEURL;?>/blog">blog</a>
